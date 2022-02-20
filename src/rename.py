@@ -1,5 +1,12 @@
+import logging
 import re
 from typing import Optional
+
+
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
 
 
 def construct_new_filename(
@@ -10,24 +17,24 @@ def construct_new_filename(
     match = re.search(r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)", filename)
 
     if debug:
-        print()
-        print(match)
+        logging.info("")
+        logging.info(match)
 
         if match:
-            print()
-            print("the whole match:")
-            print(match.group())
+            logging.info("")
+            logging.info("the whole match:")
+            logging.info(match.group())
 
-            print("group 1:")
-            print(match.group(1))
-            print("group 2:")
-            print(match.group(2))
-            print("group 3:")
-            print(match.group(3))
-            print("group 4:")
-            print(match.group(4))
-            print("group 5:")
-            print(match.group(5))
+            logging.info("group 1:")
+            logging.info(match.group(1))
+            logging.info("group 2:")
+            logging.info(match.group(2))
+            logging.info("group 3:")
+            logging.info(match.group(3))
+            logging.info("group 4:")
+            logging.info(match.group(4))
+            logging.info("group 5:")
+            logging.info(match.group(5))
 
     if not match:
         return None
@@ -47,4 +54,4 @@ if __name__ == "__main__":
         original_filename,
         debug=True,
     )
-    print(new_filename)
+    logging.info(new_filename)
