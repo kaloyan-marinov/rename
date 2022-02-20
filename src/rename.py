@@ -16,7 +16,7 @@ def construct_new_filename(
 
     match = re.search(r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)", filename)
 
-    if debug:
+    if debug:  # pragma: no cover
         logging.info("")
         logging.info(match)
 
@@ -48,10 +48,10 @@ def construct_new_filename(
     return new_filename
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     original_filename = "Screen Shot 2022-02-09 at 20.43.30.png"
     new_filename = construct_new_filename(
         original_filename,
         debug=True,
     )
-    logging.info(new_filename)
+    logging.info(new_filename)  # 2022-02-09-20-43-30.png
