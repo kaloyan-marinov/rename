@@ -11,7 +11,21 @@ $ source venv/bin/activate
 
 # Run the tests
 ```
-$ PYTHONPATH=. pytest \
+(venv) $ PYTHONPATH=. pytest \
     --cov=src/ \
+    --cov=bin/ \
     --cov-report=term-missing
+```
+
+# Example usage
+```
+(venv) $ cp -r \
+    data \
+    data-copy
+
+(venv) $ PYTHONPATH=. \
+    python bin/rename.py \
+    --directory=data-copy
+
+(venv) $ rm -r data-copy/
 ```
