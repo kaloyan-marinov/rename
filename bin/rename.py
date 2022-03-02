@@ -3,10 +3,8 @@ import logging
 import os
 import sys
 
-from src.rename import (
-    # DirectoryNotFound,
-    construct_new_filename,
-)
+from src.rename import construct_new_filename
+
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -28,7 +26,6 @@ def main():
     directory = args.directory
 
     if not os.path.exists(directory):
-        # raise DirectoryNotFound(directory)
         logging.info(
             "there doesn't exist a directory at '%s'; aborting!",
             directory,

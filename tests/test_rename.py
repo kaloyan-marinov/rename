@@ -1,9 +1,7 @@
-import datetime as dt
 import os
 import shutil
 import subprocess
 
-from bin.rename import main
 from src.rename import construct_new_filename
 
 

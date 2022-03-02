@@ -48,11 +48,6 @@ def construct_new_filename(
     return new_filename
 
 
-# class DirectoryNotFound(Exception):
-#     def __init__(self, *a, **kw):
-#         super().__init__(*a, **kw)
-
-
 if __name__ == "__main__":  # pragma: no cover
     original_filename = "Screen Shot 2022-02-09 at 20.43.30.png"
     new_filename = construct_new_filename(
