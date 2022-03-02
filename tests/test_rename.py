@@ -19,7 +19,7 @@ def test_failure_scenario_within_construct_new_filename():
     assert new_filename is None
 
 
-def test_failure_scenario_due_to_non_existent_folder():
+def test_failure_scenario_due_to_non_existent_directory():
     #     # Create a temporary directory, one for each test run.
     #     # Create a file in a test
 
@@ -34,13 +34,36 @@ def test_failure_scenario_due_to_non_existent_folder():
 
     #     print(tmp_path)
 
+    # Arrange.
+    cmd = [
+        "python",
+        "bin/rename.py",
+        "--directory",
+        "non-existent-directory",
+    ]
+
     # Act.
     # fmt: off
     c_p: subprocess.CompletedProcess = subprocess.run(
-        ["python", "bin/rename.py", "--directory", "non-existent-folder"],
+        cmd
     )
     # fmt: on
 
     #     # Assert.
 
     assert c_p.returncode == 1
+
+
+def test_failure_scenario_due_to_not_a_directory():
+    # Arrange.
+    cmd = [
+        "python",
+        "bin/rename.py",
+        "--directory=README.md",
+    ]
+
+    # Act.
+    c_p: subprocess.CompletedProcess = subprocess.run(cmd)
+
+    # Assert.
+    assert c_p.returncode == 2
