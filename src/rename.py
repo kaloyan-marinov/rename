@@ -1,6 +1,9 @@
+import argparse
 import logging
-import re
-from typing import Optional
+import os
+import sys
+
+from src.utils import construct_new_filename
 
 
 logging.basicConfig(
@@ -9,49 +12,44 @@ logging.basicConfig(
 )
 
 
-def construct_new_filename(
-    filename: str,
-    debug: bool = False,
-) -> Optional[str]:
-
-    match = re.search(r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)", filename)
-
-    if debug:  # pragma: no cover
-        logging.info("")
-        logging.info(match)
-
-        if match:
-            logging.info("")
-            logging.info("the whole match:")
-            logging.info(match.group())
-
-            logging.info("group 1:")
-            logging.info(match.group(1))
-            logging.info("group 2:")
-            logging.info(match.group(2))
-            logging.info("group 3:")
-            logging.info(match.group(3))
-            logging.info("group 4:")
-            logging.info(match.group(4))
-            logging.info("group 5:")
-            logging.info(match.group(5))
-
-    if not match:
-        return None
-
-    yyyy_mm_dd = match.group(1)
-    hh = match.group(2)
-    mm = match.group(3)
-    ss = match.group(4)
-    ext = match.group(5)
-    new_filename = "-".join([yyyy_mm_dd, hh, mm, ss]) + "." + ext
-    return new_filename
-
-
-if __name__ == "__main__":  # pragma: no cover
-    original_filename = "Screen Shot 2022-02-09 at 20.43.30.png"
-    new_filename = construct_new_filename(
-        original_filename,
-        debug=True,
+def main():
+    a_p = argparse.ArgumentParser(
+        "Rename all 'MacOS screenshot files' like %Y-%m-%d-%H-%M-%S."
     )
-    logging.info(new_filename)  # 2022-02-09-20-43-30.png
+    a_p.add_argument(
+        "-d",
+        "--directory",
+        required=True,
+    )
+
+    args = a_p.parse_args()
+    directory = args.directory
+
+    if not os.path.exists(directory):
+        logging.info(
+            "there doesn't exist a directory at '%s'; aborting!",
+            directory,
+        )
+        sys.exit(1)
+
+    if not os.path.isdir(directory):
+        logging.info(
+            "'%s' exists but is not a directory; aborting!",
+            directory,
+        )
+        sys.exit(2)
+
+    print(directory)
+    for filename in os.listdir(directory):
+        print(filename)
+
+        source = os.path.join(directory, filename)
+
+        new_filename = construct_new_filename(filename)
+        target = os.path.join(directory, new_filename)
+
+        os.rename(source, target)
+
+
+if __name__ == "__main__":
+    main()

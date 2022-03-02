@@ -3,7 +3,7 @@
 $ python3 --version
 Python 3.8.3
 
-$ pytho3 -m venv venv
+$ python3 -m venv venv
 $ source venv/bin/activate
 (venv) $ pip install --upgrade pip
 (venv) $ pip install -r requirements.txt
@@ -13,7 +13,6 @@ $ source venv/bin/activate
 ```
 (venv) $ PYTHONPATH=. pytest \
     --cov=src/ \
-    --cov=bin/ \
     --cov-report=term-missing
 ```
 
@@ -24,7 +23,7 @@ $ source venv/bin/activate
     data-copy
 
 (venv) $ PYTHONPATH=. \
-    python bin/rename.py \
+    python src/rename.py \
     --directory=data-copy
 
 (venv) $ rm -r data-copy/
