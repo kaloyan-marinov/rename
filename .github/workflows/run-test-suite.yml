@@ -30,4 +30,4 @@ jobs:
           # Using the `-m` flag to run this python command
           # will add the current directory to `sys.path`.
           # python -m pytest
-          pytest
+          PYTHONPATH=. pytest
