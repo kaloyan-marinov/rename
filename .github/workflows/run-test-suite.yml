@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  job.run-test-suite:
+  job_run-test-suite:
 
     runs-on: ubuntu-latest
 
