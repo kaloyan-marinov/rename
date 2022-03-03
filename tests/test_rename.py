@@ -62,5 +62,5 @@ def test_success_scenario(tmp_path):
     assert set(os.listdir(tmp_path)) == {
         "2022-02-09-20-43-30.txt",
         "2022-02-09-20-43-33.txt",
-        "2022-02-09-20-43-38.txt",
+        "2022-03-03-08-21-21.txt",
     }
