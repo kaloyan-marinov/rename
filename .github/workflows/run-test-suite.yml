@@ -1,0 +1,33 @@
+name: workflow.run-test-suite
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  job.run-test-suite:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository onto runner
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.3'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run test suite
+        run: |
+          # Using the `-m` flag to run this python command
+          # will add the current directory to `sys.path`.
+          # python -m pytest
+          pytest
