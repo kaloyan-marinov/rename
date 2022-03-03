@@ -33,5 +33,5 @@ jobs:
           # Using the `-m` flag to run this python command
           # will add the current directory to `sys.path`.
           # python -m pytest
-          output=$(PYTHONPATH=. pytest --cov=src/)
-          echo output
+          output=$(PYTHONPATH=. pytest --cov=src/ --cov-report=term-missing)
+          echo ${output}
