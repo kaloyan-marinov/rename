@@ -40,11 +40,22 @@ def construct_new_filename(
         return None
 
     yyyy_mm_dd = match.group(1)
-    hh = match.group(2)
+    hour = match.group(2)
     mm = match.group(3)
     ss = match.group(4)
     ext = match.group(5)
-    new_filename = "-".join([yyyy_mm_dd, hh, mm, ss]) + "." + ext
+    new_filename = (
+        "-".join(
+            [
+                yyyy_mm_dd,
+                hour if len(hour) == 2 else "0" + hour,
+                mm,
+                ss,
+            ]
+        )
+        + "."
+        + ext
+    )
     return new_filename
 
 
