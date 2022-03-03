@@ -1,13 +1,16 @@
-name: workflow.run-test-suite
+name: workflows_run-test-suite
 
 on:
   push:
-    branches: [ main ]
+    branches: 
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  job_run-test-suite:
+
+  jobs_run-test-suite:
 
     runs-on: ubuntu-latest
 
