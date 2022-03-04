@@ -1,5 +1,7 @@
 ![badge-test-coverage](https://github.com/kaloyan-marinov/rename/workflows/workflows_run-test-suite/badge.svg)
 
+[![workflows_run-test-suite](https://github.com/kaloyan-marinov/rename/actions/workflows/run-test-suite.yml/badge.svg)](https://github.com/kaloyan-marinov/rename/actions/workflows/run-test-suite.yml)
+
 # Set up the project
 ```
 $ python3 --version
