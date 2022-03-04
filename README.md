@@ -1,4 +1,4 @@
-![badge-test-coverage](https://github.com/kaloyan-marinov/rename-files/workflows/workflows_run-test-suite/badge.svg)
+![badge](https://github.com/kaloyan-marinov/rename-files/workflows/workflows_run-test-suite/badge.svg)
 
 # Set up the project
 ```
