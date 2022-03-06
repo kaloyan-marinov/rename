@@ -31,8 +31,8 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Run test suite
-        id: step-n
+      - id: step-n
+        # name: Run test suite
         run: |
           # Using the `-m` flag to run this python command
           # will add the current directory to `sys.path`.
@@ -41,7 +41,7 @@ jobs:
           read -ra arr <<< grep TOTAL line-with-the-TOTAL.txt
           coverage_percentage=${arr[3]}
           badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=17%25&color=black)"
-          echo "::set-output name=badge-url::${badge_url}"
+          echo "::set-output name=badge-url::badge_url"
 
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idoutputs
   jobs_post-comment-containing-coverage-percentage-badge:
