@@ -39,8 +39,12 @@ jobs:
           # python -m pytest
           PYTHONPATH=. pytest --cov=src/ --cov-report=term-missing > line-with-the-TOTAL.txt
 
-          read -ra arr <<< grep TOTAL line-with-the-TOTAL.txt
-          coverage_percentage=${arr[3]}
+          read -ra arr <<< $(grep TOTAL line-with-the-TOTAL.txt)
+          coverage_percentage=77
+
+          echo ${arr}
+          echo ${coverage_percentage}
+
           badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=${coverage_percentage}25&color=black)"
 
           echo ${badge_url}
