@@ -38,9 +38,10 @@ jobs:
           # will add the current directory to `sys.path`.
           # python -m pytest
           PYTHONPATH=. pytest --cov=src/ --cov-report=term-missing > line-with-the-TOTAL.txt
+
           read -ra arr <<< grep TOTAL line-with-the-TOTAL.txt
           coverage_percentage=${arr[3]}
-          badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=17%25&color=black)"
+          badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=${coverage_percentage}25&color=black)"
 
           echo "::set-output name=badge-url::${badge_url}"
 
@@ -52,8 +53,6 @@ jobs:
     needs: jobs_run-test-suite
 
     steps:
-
-      - run: echo "${{ needs.jobs_run-test-suite.outputs.badge-url }}"
 
       # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
       - name: Post comment on commit containing coverage-percentage badge
