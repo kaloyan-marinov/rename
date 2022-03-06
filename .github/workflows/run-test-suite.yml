@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      output-n: ${{ steps.step-n.outputs.badge-url }}
+      badge-url: ${{ steps.run-test-suite.outputs.badge-url }}
 
     steps:
       - name: Check out repository onto runner
@@ -31,8 +31,8 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       
-      - id: step-n
-        # name: Run test suite
+      - id: run-test-suite
+        name: Run test suite
         run: |
           # Using the `-m` flag to run this python command
           # will add the current directory to `sys.path`.
@@ -52,10 +52,10 @@ jobs:
 
     steps:
 
-      - run: echo ${{ needs.jobs_run-test-suite.outputs.output-n }}
+      - run: echo ${{ needs.jobs_run-test-suite.outputs.badge-url }}
 
       # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
       - name: Post comment on commit containing coverage-percentage badge
         uses: peter-evans/commit-comment@v1
         with:
-          body: ${{ needs.jobs_run-test-suite.outputs.output-n }}
+          body: ${{ needs.jobs_run-test-suite.outputs.badge-url }}
