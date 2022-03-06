@@ -39,8 +39,8 @@ jobs:
           # python -m pytest
           PYTHONPATH=. pytest --cov=src/ --cov-report=term-missing > line-with-the-TOTAL.txt
 
-          read -ra arr <<< $(grep TOTAL line-with-the-TOTAL.txt)
-          coverage_percentage=77
+          read -r -a arr <<< $(grep TOTAL line-with-the-TOTAL.txt)
+          coverage_percentage=77%
 
           echo ${arr}
           echo ${coverage_percentage}
