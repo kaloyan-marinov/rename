@@ -65,3 +65,8 @@ def test_success_scenario(tmp_path):
         "2022-02-09-20-43-33.txt",
         "2022-03-03-08-21-21.txt",
     }
+
+    assert {
+        dir_entry
+        for dir_entry in os.listdir(tmp_path / "these-files-should-not-be-modified")
+    } == {"Screen Shot 2022-03-06 at 10.41.57.txt", "1"}
