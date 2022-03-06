@@ -1,0 +1,9 @@
+The name of this file makes it sound as if this file were an image,
+but this file is actually a plaintext file.
+
+This is a logical inconsistency,
+which is committed purely for the sake of convenience.
+
+More concretely,
+it is slightly more convenient for this codebase's `data` folder
+to consists of examples that are plaintext files (instead of images).

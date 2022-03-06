@@ -40,11 +40,11 @@ def test_success_scenario(tmp_path):
     """
 
     # Arrange.
-    for f in os.listdir("data"):
-        shutil.copy(
-            os.path.join("data", f),
-            tmp_path / f,
-        )
+    shutil.copytree(
+        "data",
+        tmp_path,
+        dirs_exist_ok=True,
+    )
 
     command = [
         "python",
@@ -59,7 +59,8 @@ def test_success_scenario(tmp_path):
     # Assert.
     assert c_p.returncode == 0
 
-    assert set(os.listdir(tmp_path)) == {
+    assert {dir_entry for dir_entry in os.listdir(tmp_path)} == {
+        "these-files-should-not-be-modified",
         "2022-02-09-20-43-30.txt",
         "2022-02-09-20-43-33.txt",
         "2022-03-03-08-21-21.txt",

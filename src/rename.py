@@ -39,16 +39,22 @@ def main():
         )
         sys.exit(2)
 
-    print(directory)
-    for filename in os.listdir(directory):
-        print(filename)
+    logging.info(
+        "beginning to loop through the contents of the following folder %s",
+        directory,
+    )
+    for dir_entry in os.listdir(directory):
+        source = os.path.join(directory, dir_entry)
 
-        source = os.path.join(directory, filename)
+        if not os.path.isfile(source):
+            logging.info("'%s' is not a file; skipping it", dir_entry)
+            continue
+        else:
+            new_filename = construct_new_filename(dir_entry)
+            target = os.path.join(directory, new_filename)
 
-        new_filename = construct_new_filename(filename)
-        target = os.path.join(directory, new_filename)
-
-        os.rename(source, target)
+            logging.info("'%s' is a file; renaming it to '%s'", dir_entry, new_filename)
+            os.rename(source, target)
 
 
 if __name__ == "__main__":
