@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      badge-url: ${{ steps.run-test-suite.outputs.badge-url }}
+      badge-url: ${{ steps.run-tests.outputs.badge-url }}
 
     steps:
       - name: Check out repository onto runner
@@ -31,8 +31,8 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
       
-      - id: run-test-suite
-        name: Run test suite
+      - id: run-tests
+        name: Run tests
         run: |
           # Using the `-m` flag to run this python command
           # will add the current directory to `sys.path`.
@@ -41,7 +41,7 @@ jobs:
           read -ra arr <<< grep TOTAL line-with-the-TOTAL.txt
           coverage_percentage=${arr[3]}
           badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=17%25&color=black)"
-          
+
           echo "::set-output name=badge-url::${badge_url}"
 
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idoutputs
@@ -53,7 +53,7 @@ jobs:
 
     steps:
 
-      - run: echo ${{ needs.jobs_run-test-suite.outputs.badge-url }}
+      - run: echo {${{ needs.jobs_run-test-suite.outputs.badge-url }}}
 
       # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
       - name: Post comment on commit containing coverage-percentage badge
