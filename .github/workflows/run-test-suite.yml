@@ -2,27 +2,36 @@ name: workflows_run-test-suite
 
 on:
   push:
-    branches: 
-      - main
-  pull_request:
-    branches:
-      - main
+  #   branches-ignore:
+  #     - "main"
+
+  # Runs your workflow when activity on a pull request in the workflow's repository
+  # occurs. For example, if no activity types are specified, the workflow runs
+  # when a pull request is opened or reopened
+  # or when the head branch of the pull request is updated.
+  # pull_request:
+  #   branches:
+  #     - main
+  # pull_request_target:
+
+  # Make it possible to run the workflow manually (from GitHub's web UI).
+  workflow_dispatch:
 
 jobs:
 
   jobs_run-test-suite:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     outputs:
       badge-url: ${{ steps.run-tests.outputs.badge-url }}
 
     steps:
       - name: Check out repository onto runner
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8.3'
       
@@ -37,13 +46,17 @@ jobs:
           # Using the `-m` flag to run this python command
           # will add the current directory to `sys.path`.
           # python -m pytest
-          PYTHONPATH=. pytest --cov=src/ --cov-report=term-missing > line-with-the-TOTAL.txt
+          PYTHONPATH=. pytest \
+              --cov=src/ \
+              --cov-report=term-missing \
+              > line-with-the-TOTAL.txt
 
           read -r -a arr <<< $(grep TOTAL line-with-the-TOTAL.txt)
           coverage_percentage=${arr[3]}
 
           badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=${coverage_percentage}25&color=black)"
-          echo "::set-output name=badge-url::${badge_url}"
+          echo "badge-url=${badge_url}" >> $GITHUB_OUTPUT
+
 
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idoutputs
   jobs_post-comment-containing-coverage-percentage-badge:
@@ -56,6 +69,6 @@ jobs:
 
       # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
       - name: Post comment on commit containing coverage-percentage badge
-        uses: peter-evans/commit-comment@v1
+        uses: peter-evans/commit-comment@v3
         with:
           body: ${{ needs.jobs_run-test-suite.outputs.badge-url }}
