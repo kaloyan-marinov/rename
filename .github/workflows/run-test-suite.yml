@@ -55,8 +55,9 @@ jobs:
           read -r -a arr <<< $(grep TOTAL line-with-the-TOTAL.txt)
           coverage_percentage=${arr[5]}
 
-          badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=${coverage_percentage}25&color=black)"
-          echo "badge-url=${badge_url}" >> $GITHUB_OUTPUT
+          # badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=${coverage_percentage}25&color=black)"
+          # echo "badge-url=${badge_url}" >> $GITHUB_OUTPUT
+          echo "coverage-percentage=${coverage_percentage}" >> $GITHUT_OUTPUT
 
 
   # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idoutputs
@@ -68,8 +69,21 @@ jobs:
 
     steps:
 
+      # # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
+      # - name: Post comment (containing coverage-percentage badge) on commit
+      #   uses: peter-evans/commit-comment@v3
+      #   with:
+      #     body: ${{ needs.jobs_run-test-suite.outputs.badge-url }}
+
+      - id: create-badge-url
+        name: Create badge with (test-)coverage percentage
+        run: |
+          coverage_percentage="${{ needs.jobs_run-test-suite.outputs.coverage-percentage }}"
+          badge_url="![badge-test-coverage](https://img.shields.io/static/v1?label=test-coverage&message=${coverage_percentage}25&color=black)"
+          echo "badge_url=$badge_url" >> $GITHUB_OUTPUT
+
       # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
       - name: Post comment (containing coverage-percentage badge) on commit
         uses: peter-evans/commit-comment@v3
         with:
-          body: ${{ needs.jobs_run-test-suite.outputs.badge-url }}
+          body: ${{ steps.create-badge-url.outputs.badge_url }}
