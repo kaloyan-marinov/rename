@@ -15,7 +15,8 @@ $ source venv/bin/activate
 ```
 (venv) $ PYTHONPATH=. pytest \
     --cov=src/ \
-    --cov-report=term-missing
+    --cov-report=term-missing \
+    --cov-branch
 ```
 
 # Example usage

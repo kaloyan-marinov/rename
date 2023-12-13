@@ -69,7 +69,7 @@ jobs:
     steps:
 
       # https://github.com/alexanderdamiani/pytester-cov/blame/main/entrypoint.sh
-      - name: Post comment on commit containing coverage-percentage badge
+      - name: Post comment (containing coverage-percentage badge) on commit
         uses: peter-evans/commit-comment@v3
         with:
           body: ${{ needs.jobs_run-test-suite.outputs.badge-url }}
