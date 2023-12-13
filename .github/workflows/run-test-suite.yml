@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     outputs:
-      badge-url: ${{ steps.run-tests.outputs.badge-url }}
+      coverage-percentage: ${{ steps.run-tests.outputs.coverage-percentage }}
 
     steps:
       - name: Check out repository onto runner
