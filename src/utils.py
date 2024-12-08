@@ -11,10 +11,19 @@ logging.basicConfig(
 
 def construct_new_filename(
     filename: str,
+    reg_expr: str,
     debug: bool = False,
 ) -> Optional[str]:
+    """
+    Use `reg_expr` as regular expression
+    to look for a year, month, day, hour, minute, and second
+    within `filename`.
 
-    match = re.search(r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)", filename)
+    If all those components are found, construct and return a new filename;
+    otherwise, return `None`.
+    """
+
+    match = re.search(reg_expr, filename)
 
     if debug:  # pragma: no cover
         logging.info("")

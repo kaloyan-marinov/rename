@@ -14,7 +14,7 @@ logging.basicConfig(
 
 def main():
     a_p = argparse.ArgumentParser(
-        "Rename all 'MacOS screenshot files' like %Y-%m-%d-%H-%M-%S."
+        "Rename all 'files containing a timestamp' to `%Y-%m-%d-%H-%M-%S`"
     )
     a_p.add_argument(
         "-d",
@@ -44,16 +44,22 @@ def main():
         directory,
     )
     for dir_entry in os.listdir(directory):
+        logging.info("processing '%s'", dir_entry)
+
         source = os.path.join(directory, dir_entry)
 
         if not os.path.isfile(source):
-            logging.info("'%s' is not a file; skipping it", dir_entry)
+            logging.info(4 * " " + "not a file - skipping")
             continue
         else:
-            new_filename = construct_new_filename(dir_entry)
+
+            new_filename = construct_new_filename(
+                dir_entry,
+                r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)",
+            )
             target = os.path.join(directory, new_filename)
 
-            logging.info("'%s' is a file; renaming it to '%s'", dir_entry, new_filename)
+            logging.info(4 * " " + "renaming the file to '%s'", new_filename)
             os.rename(source, target)
 
 
