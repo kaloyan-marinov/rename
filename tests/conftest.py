@@ -14,3 +14,8 @@ import pytest
 @pytest.fixture
 def reg_expr_for_macos_screenshot():
     return r"(\d+)-(\d+)-(\d+) at (\d+).(\d+).(\d+).(\w+)"
+
+
+@pytest.fixture
+def reg_expr_for_fedora_screenshot():
+    return r"(\d+)-(\d+)-(\d+) (\d+)-(\d+)-(\d+).(\w+)"
