@@ -3,13 +3,7 @@ import logging
 import os
 import sys
 
-import dotenv
-
 from src.utils import construct_new_filename
-
-
-dotenv.load_dotenv(".env")
-REGULAR_EXPRESSION_FOR_TIMESTAMP = os.environ.get("REGULAR_EXPRESSION_FOR_TIMESTAMP")
 
 
 logging.basicConfig(
@@ -20,27 +14,23 @@ logging.basicConfig(
 
 def main():
     a_p = argparse.ArgumentParser(
-        "Rename all 'files containing a timestamp' to `%Y-%m-%d-%H-%M-%S`"
+        "Rename each 'file containing a timestamp' to `%Y-%m-%d-%H-%M-%S`"
     )
     a_p.add_argument(
         "-d",
         "--directory",
         required=True,
     )
-
-    if REGULAR_EXPRESSION_FOR_TIMESTAMP is None:
-        logging.info(
-            "the environment variable 'REGULAR_EXPRESSION_FOR_TIMESTAMP' is not specified"
-            + " - aborting"
-        )
-        sys.exit(1)
-    logging.info(
-        "the environment variable 'REGULAR_EXPRESSION_FOR_TIMESTAMP' is equal to '%s'",
-        REGULAR_EXPRESSION_FOR_TIMESTAMP,
+    a_p.add_argument(
+        "-re",
+        "--regular-expression",
+        required=True,
+        help="regular expression for timestamp",
     )
 
     args = a_p.parse_args()
     directory = args.directory
+    regular_expression = args.regular_expression
 
     if not os.path.exists(directory):
         logging.info(
@@ -71,7 +61,7 @@ def main():
         else:
             new_filename = construct_new_filename(
                 dir_entry,
-                REGULAR_EXPRESSION_FOR_TIMESTAMP,
+                regular_expression,
             )
 
             if new_filename is None:
@@ -79,7 +69,7 @@ def main():
                     4 * " "
                     + "did not find a match (for the regular expression '%s')"
                     + " - skipping",
-                    REGULAR_EXPRESSION_FOR_TIMESTAMP,
+                    regular_expression,
                 )
                 continue
 
