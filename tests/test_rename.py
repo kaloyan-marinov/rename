@@ -3,6 +3,11 @@ import shutil
 import subprocess
 
 
+os.environ["PYTHONPATH"] = os.path.realpath(
+    os.path.join(os.path.basename(__file__), "..")
+)
+
+
 def test_failure_scenario_due_to_non_existent_directory():
     # Arrange.
     command = [
@@ -26,9 +31,16 @@ def test_failure_scenario_due_to_not_a_directory():
         "src/rename.py",
         "--directory=README.md",
     ]
+    # env = {k: os.environ[k] for k in os.environ}
 
     # Act.
-    c_p: subprocess.CompletedProcess = subprocess.run(command)
+    c_p: subprocess.CompletedProcess = subprocess.run(
+        command,
+        # env={
+        #     **env,
+        #     "REGULAR_EXPRESSION_FOR_TIMESTAMP": "whatever",
+        # },
+    )
 
     # Assert.
     assert c_p.returncode == 2
