@@ -75,10 +75,27 @@ def main():
             )
 
             if new_filename is None:
-                logging.info(4 * " " + "did not find a match for ... - skipping")
+                logging.info(
+                    4 * " "
+                    + "did not find a match (for the regular expression '%s')"
+                    + " - skipping",
+                    REGULAR_EXPRESSION_FOR_TIMESTAMP,
+                )
                 continue
 
             target = os.path.join(directory, new_filename)
+
+            if dir_entry == new_filename:
+                logging.info(
+                    4 * " " + "'dir_entry' and 'new_filename' are equal - skipping"
+                )
+                continue
+
+            if os.path.exists(target):
+                logging.info(
+                    4 * " " + "there already exists a file at '%s' - aborting", target
+                )
+                sys.exit(1)
 
             logging.info(4 * " " + "renaming the file to '%s'", new_filename)
             os.rename(source, target)
