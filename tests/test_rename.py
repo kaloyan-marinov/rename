@@ -8,7 +8,12 @@ os.environ["PYTHONPATH"] = os.path.realpath(
 )
 
 
-def test_failure_scenario_due_to_non_existent_directory():
+def test_rename_1_failure():
+    """
+    Test the scenario of the script crashing
+    due to the value provided to `--directory` being non-existent.
+    """
+
     # Arrange.
     command = [
         "python",
@@ -26,29 +31,27 @@ def test_failure_scenario_due_to_non_existent_directory():
     assert c_p.returncode == 1
 
 
-def test_failure_scenario_due_to_not_a_directory():
+def test_rename_2_failure():
+    """
+    Test the scenario of the script crashing
+    due to the value provided to `--directory` not being a directory.
+    """
+
     # Arrange.
     command = [
         "python",
         "src/rename.py",
         "--directory=README.md",
     ]
-    # env = {k: os.environ[k] for k in os.environ}
 
     # Act.
-    c_p: subprocess.CompletedProcess = subprocess.run(
-        command,
-        # env={
-        #     **env,
-        #     "REGULAR_EXPRESSION_FOR_TIMESTAMP": "whatever",
-        # },
-    )
+    c_p: subprocess.CompletedProcess = subprocess.run(command)
 
     # Assert.
     assert c_p.returncode == 2
 
 
-def test_success_scenario(
+def test_rename_3_success(
     tmp_path,
     reg_expr_for_macos_screenshot,
 ):
