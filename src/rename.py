@@ -14,16 +14,23 @@ logging.basicConfig(
 
 def main():
     a_p = argparse.ArgumentParser(
-        "Rename all 'MacOS screenshot files' like %Y-%m-%d-%H-%M-%S."
+        "Rename each 'file containing a timestamp' to `%Y-%m-%d-%H-%M-%S`"
     )
     a_p.add_argument(
         "-d",
         "--directory",
         required=True,
     )
+    a_p.add_argument(
+        "-re",
+        "--regular-expression",
+        required=True,
+        help="regular expression for timestamp",
+    )
 
     args = a_p.parse_args()
     directory = args.directory
+    regular_expression = args.regular_expression
 
     if not os.path.exists(directory):
         logging.info(
@@ -44,16 +51,43 @@ def main():
         directory,
     )
     for dir_entry in os.listdir(directory):
+        logging.info("processing '%s'", dir_entry)
+
         source = os.path.join(directory, dir_entry)
 
         if not os.path.isfile(source):
-            logging.info("'%s' is not a file; skipping it", dir_entry)
+            logging.info(4 * " " + "not a file - skipping")
             continue
         else:
-            new_filename = construct_new_filename(dir_entry)
+            new_filename = construct_new_filename(
+                dir_entry,
+                regular_expression,
+            )
+
+            if new_filename is None:
+                logging.info(
+                    4 * " "
+                    + "did not find a match (for the regular expression '%s')"
+                    + " - skipping",
+                    regular_expression,
+                )
+                continue
+
             target = os.path.join(directory, new_filename)
 
-            logging.info("'%s' is a file; renaming it to '%s'", dir_entry, new_filename)
+            if dir_entry == new_filename:
+                logging.info(
+                    4 * " " + "'dir_entry' and 'new_filename' are equal - skipping"
+                )
+                continue
+
+            if os.path.exists(target):
+                logging.info(
+                    4 * " " + "there already exists a file at '%s' - aborting", target
+                )
+                sys.exit(1)
+
+            logging.info(4 * " " + "renaming the file to '%s'", new_filename)
             os.rename(source, target)
 
 

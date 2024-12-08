@@ -3,13 +3,25 @@ import shutil
 import subprocess
 
 
-def test_failure_scenario_due_to_non_existent_directory():
+os.environ["PYTHONPATH"] = os.path.realpath(
+    os.path.join(os.path.basename(__file__), "..")
+)
+
+
+def test_rename_1_failure():
+    """
+    Test the scenario of the script crashing
+    due to the value provided to `--directory` being non-existent.
+    """
+
     # Arrange.
     command = [
         "python",
         "src/rename.py",
         "--directory",
         "non-existent-directory",
+        "--regular-expression",
+        "this-value-does-not-matter-for-this-test",
     ]
 
     # Act.
@@ -19,7 +31,12 @@ def test_failure_scenario_due_to_non_existent_directory():
     assert c_p.returncode == 1
 
 
-def test_failure_scenario_due_to_not_a_directory():
+def test_rename_2_failure():
+    """
+    Test the scenario of the script crashing
+    due to the value provided to `--directory` not being a directory.
+    """
+
     # Arrange.
     command = [
         "python",
@@ -34,7 +51,10 @@ def test_failure_scenario_due_to_not_a_directory():
     assert c_p.returncode == 2
 
 
-def test_success_scenario(tmp_path):
+def test_rename_3_success(
+    tmp_path,
+    reg_expr_for_macos_screenshot,
+):
     """
     Create a temporary directory, one for each run of this test case.
     """
@@ -51,6 +71,8 @@ def test_success_scenario(tmp_path):
         "src/rename.py",
         "--directory",
         tmp_path,
+        "--regular-expression",
+        reg_expr_for_macos_screenshot,
     ]
 
     # Act.
