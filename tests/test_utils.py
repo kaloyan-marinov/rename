@@ -5,7 +5,7 @@ from src.utils import construct_new_filename
 
 @pytest.fixture
 def reg_expr_for_macos_screenshot():
-    return r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)"
+    return r"(\d+)-(\d+)-(\d+) at (\d+).(\d+).(\d+).(\w+)"
 
 
 def test_success_scenario_within_construct_new_filename_1(

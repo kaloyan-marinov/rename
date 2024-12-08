@@ -3,7 +3,13 @@ import logging
 import os
 import sys
 
+import dotenv
+
 from src.utils import construct_new_filename
+
+
+dotenv.load_dotenv(".env")
+REGULAR_EXPRESSION_FOR_TIMESTAMP = os.environ.get("REGULAR_EXPRESSION_FOR_TIMESTAMP")
 
 
 logging.basicConfig(
@@ -20,6 +26,17 @@ def main():
         "-d",
         "--directory",
         required=True,
+    )
+
+    if REGULAR_EXPRESSION_FOR_TIMESTAMP is None:
+        logging.info(
+            "the environment variable 'REGULAR_EXPRESSION_FOR_TIMESTAMP' is not specified"
+            + " - aborting"
+        )
+        sys.exit(1)
+    logging.info(
+        "the environment variable 'REGULAR_EXPRESSION_FOR_TIMESTAMP' is equal to '%s'",
+        REGULAR_EXPRESSION_FOR_TIMESTAMP,
     )
 
     args = a_p.parse_args()
@@ -54,7 +71,7 @@ def main():
         else:
             new_filename = construct_new_filename(
                 dir_entry,
-                r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)",
+                REGULAR_EXPRESSION_FOR_TIMESTAMP,
             )
 
             if new_filename is None:

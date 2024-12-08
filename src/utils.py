@@ -48,23 +48,23 @@ def construct_new_filename(
     if not match:
         return None
 
-    yyyy_mm_dd = match.group(1)
-    hour = match.group(2)
-    mm = match.group(3)
-    ss = match.group(4)
-    ext = match.group(5)
-    new_filename = (
-        "-".join(
-            [
-                yyyy_mm_dd,
-                hour if len(hour) == 2 else "0" + hour,
-                mm,
-                ss,
-            ]
-        )
-        + "."
-        + ext
-    )
+    date_yyyy = match.group(1)
+    date_mm = match.group(2)
+    date_dd = match.group(3)
+    hh = match.group(4)
+    mm = match.group(5)
+    ss = match.group(6)
+    ext = match.group(7)
+
+    timestamp_components = [
+        date_yyyy,
+        date_mm,
+        date_dd,
+        hh if len(hh) == 2 else "0" + hh,
+        mm,
+        ss,
+    ]
+    new_filename = "-".join(timestamp_components) + "." + ext
     return new_filename
 
 
