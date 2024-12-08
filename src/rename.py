@@ -52,11 +52,15 @@ def main():
             logging.info(4 * " " + "not a file - skipping")
             continue
         else:
-
             new_filename = construct_new_filename(
                 dir_entry,
                 r"(\d+-\d+-\d+) at (\d+).(\d+).(\d+).(\w+)",
             )
+
+            if new_filename is None:
+                logging.info(4 * " " + "did not find a match for ... - skipping")
+                continue
+
             target = os.path.join(directory, new_filename)
 
             logging.info(4 * " " + "renaming the file to '%s'", new_filename)
