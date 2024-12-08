@@ -15,9 +15,9 @@ def construct_new_filename(
     debug: bool = False,
 ) -> Optional[str]:
     """
-    Use `reg_expr` as regular expression
-    to look for a year, month, day, hour, minute, and second
-    within `filename`.
+    Utilize `reg_expr` as the regular expression
+    for extracting the year, month, day, hour, minute, and second
+    from `filename`.
 
     If all those components are found, construct and return a new filename;
     otherwise, return `None`.
