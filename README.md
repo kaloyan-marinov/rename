@@ -3,7 +3,7 @@
 # Set up the project
 ```bash
 $ python3 --version
-Python 3.8.3
+Python 3.13.2
 
 $ python3 -m venv venv
 $ source venv/bin/activate
